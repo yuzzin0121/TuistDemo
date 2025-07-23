@@ -1,0 +1,15 @@
+import UIKit
+
+{% for catalog in catalogs %}
+{% if catalog.name == "Colors" %}
+/// ✱ 자동생성: Colors.xcassets 내 색상 접근자
+public enum DSColors {
+{% for color in catalog.assets %}
+    /// 색상 이름: {{ color.name }}
+    public static var {{ color.name|swiftIdentifier:"pretty"|lowerFirstWord }}: UIColor {
+        return UIColor(named: "{{ color.name }}", in: .module, compatibleWith: nil)!
+    }
+{% endfor %}
+}
+{% endif %}
+{% endfor %}

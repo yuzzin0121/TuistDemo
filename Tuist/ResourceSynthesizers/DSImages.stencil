@@ -1,0 +1,14 @@
+import UIKit
+
+{% for catalog in catalogs %}
+{% if catalog.name == "Images" %}
+/// ✱ 자동생성: Images.xcassets 내 이미지 접근자
+public enum DSImages {
+{% for image in catalog.assets %}
+    /// 이미지 이름: {{ image.name }}
+    public static let {{ image.name|swiftIdentifier:"pretty"|lowerFirstWord }} =
+        UIImage(named: "{{ image.name }}", in: .module, compatibleWith: nil)!
+{% endfor %}
+}
+{% endif %}
+{% endfor %}

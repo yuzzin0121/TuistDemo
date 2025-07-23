@@ -10,5 +10,9 @@ import ProjectDescriptionHelpers
 
 let project = Project.framework(
     name: Module.designSystem.name,
-    resources: .default
+    resources: .default,
+    resourceSynthesizers: [
+        .custom(name: "DSColors", parser: .assets, extensions: ["xcassets"]),
+        .custom(name: "DSImages", parser: .assets, extensions: ["xcassets"])
+    ]
 )

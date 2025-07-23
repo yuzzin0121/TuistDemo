@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import DesignSystem
 
 final public class MainViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = DSColors.mainWhite
     }
     
 

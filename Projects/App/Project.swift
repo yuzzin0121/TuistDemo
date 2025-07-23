@@ -11,12 +11,7 @@ import ProjectDescriptionHelpers
 let project = Project.app(
     name: Module.app.name,
     dependencies: [
-        Module.core,
-        Module.data,
-        Module.domain,
-        Module.presentation,
-        Module.designSystem,
-        Module.DependencyInjection
+        Module.presentation
     ].map(\.project),
     resources: .default
 )

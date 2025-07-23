@@ -16,7 +16,8 @@ extension Project {
         schemes: [Scheme] = [],
         infoPlist: InfoPlist? = nil,
         dependencies: [TargetDependency] = [],
-        resources: ResourceFileElements? = nil
+        resources: ResourceFileElements? = nil,
+        resourceSynthesizers: [ResourceSynthesizer] = []
     ) -> Project {
         return Project(
             name: name,
@@ -46,7 +47,8 @@ extension Project {
                     ]
                 )
             ],
-            schemes: schemes
+            schemes: schemes,
+            resourceSynthesizers: resourceSynthesizers
         )
     }
     
@@ -60,7 +62,11 @@ extension Project {
             settings: .settings(
                 base: [
                     "CODE_SIGN_STYLE": "Automatic",
-                    "DEVELOPMENT_TEAM": "T2Q8P9627P"
+                    "DEVELOPMENT_TEAM": "T2Q8P9627P",
+                    "ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS": "YES",
+                    "OTHER_LDFLAGS": "-ObjC",
+                    "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "PROD",
                 ],
                 configurations: [
                     .debug(name: "Debug", settings: [:]),
@@ -79,15 +85,17 @@ extension Project {
     public static func framework(
         name: String,
         dependencies: [TargetDependency] = [],
-        resources: ProjectDescription.ResourceFileElements? = nil
+        resources: ProjectDescription.ResourceFileElements? = nil,
+        resourceSynthesizers: [ResourceSynthesizer] = []
     ) -> Project {
         return .makeProject(
             name: name,
             product: .framework,
             bundleID: Environment.bundleId + ".\(name)",
-            infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
+            infoPlist: .default,
             dependencies: dependencies,
-            resources: resources
+            resources: resources,
+            resourceSynthesizers: resourceSynthesizers
         )
     }
 }
