@@ -10,6 +10,7 @@ import ProjectDescription
 extension Project {
     public static func makeProject(
         name: String,
+        settings: Settings? = nil,
         product: Product,
         bundleID: String,
         schemes: [Scheme] = [],
@@ -19,13 +20,7 @@ extension Project {
     ) -> Project {
         return Project(
             name: name,
-            settings: .settings(
-              configurations: [
-                .debug(name: "Debug", settings: [:]),
-                .release(name: "Release", settings: [:])
-              ],
-              defaultSettings: .recommended
-            ),
+            settings: settings,
             targets: [
                 .target(
                     name: name,
@@ -44,7 +39,7 @@ extension Project {
                     product: .unitTests,
                     bundleId: bundleID,
                     deploymentTargets: Environment.deploymentTarget,
-                    infoPlist: .default,
+                    infoPlist: nil,
                     sources: ["Tests/**"],
                     dependencies: [
                         .target(name: "\(name)")
@@ -62,6 +57,17 @@ extension Project {
     ) -> Project {
         return self.makeProject(
             name: name,
+            settings: .settings(
+                base: [
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "DEVELOPMENT_TEAM": "T2Q8P9627P"
+                ],
+                configurations: [
+                    .debug(name: "Debug", settings: [:]),
+                    .release(name: "Release", settings: [:])
+                ],
+                defaultSettings: .recommended
+            ),
             product: .app,
             bundleID: Environment.bundleId,
             infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
@@ -79,7 +85,7 @@ extension Project {
             name: name,
             product: .framework,
             bundleID: Environment.bundleId + ".\(name)",
-            infoPlist: .default,
+            infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
             dependencies: dependencies,
             resources: resources
         )
