@@ -15,6 +15,4 @@ final public class MainViewController: UIViewController {
 
         view.backgroundColor = DSColors.mainWhite
     }
-    
-
 }
