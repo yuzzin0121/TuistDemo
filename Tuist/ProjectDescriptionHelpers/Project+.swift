@@ -13,6 +13,7 @@ extension Project {
         product: Product,
         bundleID: String,
         schemes: [Scheme] = [],
+        infoPlist: InfoPlist? = nil,
         dependencies: [TargetDependency] = [],
         resources: ResourceFileElements? = nil
     ) -> Project {
@@ -32,7 +33,7 @@ extension Project {
                     product: product,
                     bundleId: bundleID,
                     deploymentTargets: Environment.deploymentTarget,
-                    infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
+                    infoPlist: infoPlist,
                     sources: ["Sources/**"],
                     resources: resources,
                     dependencies: dependencies
@@ -43,8 +44,8 @@ extension Project {
                     product: .unitTests,
                     bundleId: bundleID,
                     deploymentTargets: Environment.deploymentTarget,
-                    infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
-                    sources: "Tests/**",
+                    infoPlist: .default,
+                    sources: ["Tests/**"],
                     dependencies: [
                         .target(name: "\(name)")
                     ]
@@ -62,7 +63,8 @@ extension Project {
         return self.makeProject(
             name: name,
             product: .app,
-            bundleID: Environment.organizationName,
+            bundleID: Environment.bundleId,
+            infoPlist: .file(path: .relativeToRoot("Supporting Files/Info.plist")),
             dependencies: dependencies,
             resources: resources
         )
@@ -77,6 +79,7 @@ extension Project {
             name: name,
             product: .framework,
             bundleID: Environment.bundleId + ".\(name)",
+            infoPlist: .default,
             dependencies: dependencies,
             resources: resources
         )

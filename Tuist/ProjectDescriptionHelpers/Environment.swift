@@ -15,6 +15,6 @@ public enum Environment {
     public static let deploymentTarget: DeploymentTargets = .iOS("17.0")
     public static let destinations = Destinations.iOS
     public static let baseSetting: SettingsDictionary = SettingsDictionary()
-    public static let bundleId = "com.yuzzin"
+    public static let bundleId = "com.yuzzin.TuistDemo"
 }
 

@@ -8,4 +8,7 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.framework(name: Module.designSystem.name)
+let project = Project.framework(
+    name: Module.designSystem.name,
+    resources: .default
+)
